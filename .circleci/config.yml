@@ -1,0 +1,26 @@
+version: 2.1
+jobs:
+  lint-dockerfile-ui:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Run hadolint
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+  build-app-karsajobs-ui:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run: ./build_push_image_karsajobs_ui.sh
+workflows:
+  version: 2
+  build-push-ui:
+    jobs:
+      - lint-dockerfile-ui
+      - build-app-karsajobs-ui:
+          requires:
+            - lint-dockerfile-ui
