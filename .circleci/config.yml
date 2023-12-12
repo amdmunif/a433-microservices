@@ -1,0 +1,52 @@
+# Versi yml
+version: 2.1
+# Daftar pekerjaan yang akan dilakukan
+jobs:
+  # Menentukan lint-dockerfile
+  lint-dockerfile:
+    # Menentukan docker image yang akan digunakan
+    docker:
+      # Docker image yang digunakan
+      - image: cimg/base:stable
+    # Menentukan langkah yang akan dilakukan
+    steps:
+      # Melakukan checkout 
+      - checkout
+      # Menentukan tahap selanjutnya untuk melakukan setup remote docker
+      - setup_remote_docker
+      # Menjalankan perintah
+      - run:
+          # Menjalankan hadolint
+          name: Run hadolint
+          # Proses untuk menginstal hadolint dan menjalankannya terhadap berkas Dockerfile
+          command: docker run --rm --interactive hadolint/hadolint < Dockerfile
+  # Membangun aplikasi order service
+  build-order-service:
+    # Menentukan docker
+    docker:
+      # Menentukan image docker yang akan digunakan
+      - image: cimg/base:stable
+    # Menentukan langkah yang akan di lakukan
+    steps:
+      # Melakukan checkout
+      - checkout
+      # Menentukan tahap selanjutnya untuk melakukan setup remote docker
+      - setup_remote_docker
+      # Melakukan perintah untuk build push image dengan nama order service
+      - run: ./build_push_image_order_service.sh
+# Workflow yang akan dilakukan
+workflows:
+  # Versi dari yml
+  version: 2
+  # Menjalankan perintah test dan build
+  test-and-build:
+    # Daftar pekerjaan yang akan dilakukan
+    jobs:
+      # Menjalankan pekerjaan untuk melakukan linting terhadap Dockerfile
+      - lint-dockerfile
+      # Menjalankan pekerjaan untuk build aplikasi order service
+      - build-order-service:
+          # Menentukan syarat
+          requires:
+            # Bahwa pekerjaan ini memerlukan successful completion dari lint-dockerfile sebelum dapat dijalankan
+            - lint-dockerfile
