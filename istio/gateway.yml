@@ -1,0 +1,20 @@
+# Membuat Gateway untuk akses service order dan shipping
+
+# Menentukan versi api yang akan digunakan
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+# Menentukan metadata yang akan digunakan
+metadata:
+  name: ingress-gateway
+# Menentukan spesifikasi untuk ingress gateway
+spec: 
+  selector:
+    istio: ingressgateway
+  # Menentukan server yang diisi port dan protocol
+  servers:
+    - port:
+        number: 80
+        name: http
+        protocol: HTTP
+      hosts:
+        - "*"

@@ -1,0 +1,54 @@
+# Virtual Service untuk order
+
+# Menentukan versi api yang akan digunakan
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+# Menentukan metadata yang akan digunakan
+metadata:
+  name: order
+spec:
+  # Hosts yang berasal dari luar cluster
+  hosts:
+    - "*"
+  # Gateway yang digunakan untuk mengakses service order
+  gateways:
+    - ingress-gateway
+  # Rute untuk mengakses service order
+  http:
+    # Jika path yang diakses adalah /order, maka akan diarahkan ke service order
+    - match:
+        - uri:
+            exact: /order
+      route:
+        # Tujuan rute adalah service order di port 3000
+        - destination:
+            host: order.default.svc.cluster.local
+            port:
+              number: 3000
+---
+# Virtual Service untuk shipping 
+
+# Menentukan versi api yang akan digunakan
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+# Menentukan metadata yang akan digunakan
+metadata:
+  name: shipping
+spec:
+  # Hosts yang berasal dari luar cluster
+  hosts:
+    - "*"
+  # Gateway yang digunakan untuk mengakses service shipping
+  gateways:
+    - ingress-gateway
+  http:
+    # Jika path yang diakses adalah /shipping, maka akan diarahkan ke service shipping
+    - match:
+        - uri:
+            exact: /shipping
+      route:
+        # Tujuan rute adalah service shipping di port 3001 di namespace
+        - destination:
+            host: shipping.default.svc.cluster.local
+            port:
+              number: 3001

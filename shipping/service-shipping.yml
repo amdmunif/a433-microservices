@@ -1,0 +1,15 @@
+# Service untuk shipping dengan port 3001
+
+# Menentukan versi api yang akan digunakan
+apiVersion: v1
+kind: Service
+# Menentukan metadata yang akan digunakan
+metadata:
+  name: shipping
+spec:
+  # Berdasarkan label app: shipping
+  selector:
+    app: shipping
+  # Port 3001
+  ports:
+    - port: 3001

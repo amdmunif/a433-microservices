@@ -1,0 +1,15 @@
+# Service untuk order dengan port 3000
+
+# Menentukan versi api yang akan digunakan
+apiVersion: v1
+kind: Service
+# Menentukan metadata yang akan digunakan
+metadata:
+  name: order
+spec:
+  # Berdasarkan label app: order
+  selector:
+    app: order
+  # Port 3000
+  ports:
+    - port: 3000
