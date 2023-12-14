@@ -41,5 +41,5 @@ spec:
             - name: PORT
               value: "3001"
             - name: AMQP_URL
-              # Alamat endpoint RabbitMQ di namespace rabbit dengan username dan password test
-              value: amqp://test:test@127.0.0.1:5672
+              # Alamat endpoint RabbitMQ di namespace default dengan username dan password test
+              value: amqp://test:test@10.96.217.162:5672
