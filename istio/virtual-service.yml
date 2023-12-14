@@ -22,7 +22,7 @@ spec:
       route:
         # Tujuan rute adalah service order di port 3000
         - destination:
-            host: order.default.svc.cluster.local
+            host: order
             port:
               number: 3000
 ---
@@ -47,8 +47,8 @@ spec:
         - uri:
             exact: /shipping
       route:
-        # Tujuan rute adalah service shipping di port 3001 di namespace
+        # Tujuan rute adalah service shipping di port 3001
         - destination:
-            host: shipping.default.svc.cluster.local
+            host: shipping
             port:
               number: 3001
